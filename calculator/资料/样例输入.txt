@@ -1,0 +1,14 @@
+2-3^sincostan(3+6)+5               4.63639000
+     
+sin3+cos4*5+cos6                   -2.16693
+
+sintan3+cos4*5                     -3.410
+
+tansincostan78			   0.90412400
+
+3++-4
+
+sincos(pi/2)+pi*(3-9)             -18.84950000  
+
+sin((8+7)
+

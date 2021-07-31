@@ -1,0 +1,384 @@
+#include"head.h"
+
+
+
+//enum    fuhao { .  , +  , -  , *  , /  , (  , )  , sin  , cos  , tan  , log  , ln ,  ^  ,  sqr };
+int fuhao[14] = { 0  , 1  , 2  , 3  , 4  , 5  , 6  ,  7   ,  8   ,  9   ,  10  , 11 ,  12 ,   13 };
+
+//角度换弧度
+double deg_To_rad(double deg)
+{
+	return ( PI*deg) /180;
+}
+
+
+//检测输入合法性
+int jiance(string c)
+{
+	unsigned i = 0, fanhui = 0;
+	unsigned xiaoshudian = 0, zuokuohao = 0, youkuohao = 0;
+	if ((c[0] >= '0'&&c[0] <= '9') ||c[0]=='p'|| c[0] == 's' || c[0] == 'c' || c[0] == 't' || c[0] == 'l' || c[0] == '('||(c[0]=='-'&&c[1]!='+'&&c[1]!='-'&&c[1]!='*'&&c[1]!='/'&&c[1]!='^'&&c[1]!=')'))
+	{
+		fanhui= 1; //开头合法
+		if ((c[c.size() - 5] >= '0'&&c[c.size() - 5] <= '9') ||c[c.size ()-5]=='p'|| c[c.size() - 5] == ')')
+		{
+			fanhui = 1; //结尾合法
+			while (i <(c.size() - 4))
+			{
+				if (c[i] == '+' || c[i] == '-' || c[i] == '*' || c[i] == '/')
+				{
+					xiaoshudian = 0;
+					if ((c[i + 1] >= '0'&&c[i + 1] <= '9') ||c[i+1]=='p'|| c[i + 1] == '(' || c[i + 1] == 's' || c[i+1] == 'c' || c[i+1] == 't' || c[i+1] == 'l')
+						fanhui = 1; //加减乘除合法
+					else{
+						fanhui = -3; //加减乘除运算符格式错误
+						goto loop1;
+					}
+						
+				}
+				else if (c[i] == 's')
+				if (c[i - 1] != 'o')
+				{
+					xiaoshudian = 0;
+					if (c[i + 1] == 'i')
+					{
+						if (c[i + 2] == 'n')
+						{
+							fanhui = 1;//三角函数合法
+							if ((c[i + 3] >= '0'&&c[i + 3] <= '9') || c[i + 3] == 'p' || c[i + 3] == '(' || c[i + 3] == 's' || c[i + 3] == 'c' || c[i + 3] == 't' || c[i + 3] == 'l' || c[i + 3] == '-')
+								fanhui = 1;
+							else{
+								fanhui = -4;
+								goto loop1;
+							}	
+						}
+						else{
+							fanhui = -4;//三角函数错误
+							goto loop1;
+						}
+							
+					}
+					else if (c[i + 1] == 'q')
+					{
+						if (c[i + 2] == 'r')
+						{
+							fanhui = 1;//开方函数合法
+							if ((c[i + 3] >= '0'&&c[i + 3] <= '9') || c[i + 3] == 'p' || c[i + 3] == '(' || c[i + 3] == 's' || c[i + 3] == 'c' || c[i + 3] == 't' || c[i + 3] == 'l' || c[i + 3] == '-')
+								fanhui = 1;
+							else {
+								fanhui = -5;
+								goto loop1;
+							}
+								
+						}
+							
+						else{
+							fanhui = -5; //开方函数错误
+							goto loop1;
+						}
+							
+					}
+					else{
+						fanhui = -4;
+						goto loop1;
+					}
+						
+				}
+				else if (c[i] == 'c')
+				{
+					xiaoshudian = 0;
+					if (c[i + 1] == 'o')
+					{
+						if (c[i + 2] == 's')
+						{
+							fanhui = 1;//三角函数合法
+							if ((c[i + 3] >= '0'&&c[i + 3] <= '9') || c[i + 3] == 'p' || c[i + 3] == '(' || c[i + 3] == 's' || c[i + 3] == 'c' || c[i + 3] == 't' || c[i + 3] == 'l' || c[i + 3] == '-')
+								fanhui = 1;
+							else{
+								fanhui = -4;
+								goto loop1;
+							}
+								
+						}
+						else{
+							fanhui = -4;//三角函数错误
+							goto loop1;
+						}
+							
+					}
+					else{
+						fanhui = -4;//三角函数错误
+						goto loop1;
+					}
+						
+				}
+				else if (c[i] == 't')
+				{
+					xiaoshudian = 0;
+					if (c[i + 1] == 'a')
+					{
+						if (c[i + 2] == 'n')
+						{
+							fanhui = 1;//三角函数合法
+							if ((c[i + 3] >= '0'&&c[i + 3] <= '9') || c[i + 3] == 'p' || c[i + 3] == '(' || c[i + 3] == 's' || c[i + 3] == 'c' || c[i + 3] == 't' || c[i + 3] == 'l' || c[i + 3] == '-')
+								fanhui = 1;
+							else{
+								fanhui = -4;
+								goto loop1;
+							}
+								
+						}
+						else {
+							fanhui = -4;//三角函数错误
+							goto loop1;
+						}
+							
+					}
+					else{
+						fanhui = -4;//三角函数错误
+						goto loop1;
+					}
+						
+				}
+				else if (c[i] == 'l')
+				{
+					xiaoshudian = 0;
+					if (c[i + 1] == 'o')
+					{
+						if (c[i + 2] == 'g')
+						{
+							if ((c[i + 3] > '0'&&c[i + 3] <= '9') || c[i + 3] == 'p' || c[i + 3] == '(' || c[i + 3] == 's' || c[i + 3] == 'c' || c[i + 3] == 't' || c[i + 3] == 'l' )
+								fanhui = 1;//对数函数合法
+							else{
+								fanhui = -6;
+								goto loop1;
+							}
+								
+						}	
+						else{
+							fanhui = -6;//对数函数错误
+							goto loop1;
+						}
+							
+					}
+					else if (c[i + 1] == 'n')
+					{
+						if ((c[i + 2] > '0'&&c[i + 2] <= '9') || c[i + 2] == 'p' || c[i + 2] == '(' || c[i + 2] == 's' || c[i + 2] == 'c' || c[i + 2] == 't' || c[i + 2] == 'l')
+							fanhui = 1;//对数函数合法
+						else{
+							fanhui = -6;
+							goto loop1;
+						}
+							
+					}
+					else{
+						fanhui = -6;//对数函数错误
+						goto loop1;
+					}
+						
+				}
+				else if (c[i] == '^')
+				{
+					xiaoshudian = 0;
+					if ((c[i + 1] >= '0'&&c[i + 1] <= '9') || c[i + 1] == 'p' || c[i + 1] == '(' || c[i + 1] == 's' || c[i + 1] == 'c' || c[i + 1] == 't' || c[i + 1] == 'l')
+						fanhui = 1;//乘方函数合法
+					else{
+						fanhui = -7;
+						goto loop1;
+					}
+
+				}
+				else if (c[i] == '(')
+				{
+					xiaoshudian = 0;
+					zuokuohao++;
+					if ((c[i + 1] >= '0'&&c[i + 1] <= '9') || c[i + 1] == 'p' || c[i + 1] == '(' || c[i + 1] == 's' || c[i + 1] == 'c' || c[i + 1] == 't' || c[i + 1] == 'l'||c[i+1]=='-')
+						fanhui = 1;//左括号合法
+					else{
+						fanhui = -8;
+						goto loop1;
+					}
+						
+				}
+				else if (c[i] == ')')
+				{
+					xiaoshudian = 0;
+					youkuohao++;
+					if (c[i + 1] == ')' || c[i + 1] == '+' || c[i + 1] == '-' || c[i + 1] == '*' || c[i + 1] == '/')
+						fanhui = 1;//右括号合法
+					else{
+						fanhui = -9;
+						goto loop1;
+					}
+					
+				}
+				else if (c[i] == '.')
+				{
+					if (c[i + 1] >= '0'&&c[i + 1] <= '9')
+					{
+						fanhui = 1;//小数点合法
+						xiaoshudian = 1;
+					}
+					else{
+						fanhui = -10;  //小数点错误
+						goto loop1;
+					}
+						
+				}
+				else if ((c[i] > '0'&&c[i] <= '9') || c[i] == 'p')
+				{
+					if (xiaoshudian == 0)
+					{
+						if ((c[i + 1] >= '0'&&c[i + 1] <= '9') || c[i + 1] == 'p' || c[i + 1] == ')'||c[i+1]=='.'||c[i+1]=='+'||c[i+1]=='-'||c[i+1]=='*'||c[i+1]=='/'||c[i+1]=='#')
+							fanhui = 1;//实数合法
+						else{
+							fanhui = -11;//实数错误
+							goto loop1;
+						}
+							
+					}
+					else
+					{
+						if ((c[i + 1] >= '0'&&c[i + 1] <= '9') || c[i + 1] == '+' || c[i + 1] == '-' || c[i + 1] == '*' || c[i + 1] == '/' || c[i + 1] == '#')
+							fanhui = 1;//实数合法
+						else{
+							fanhui = -11;//实数错误
+							goto loop1;
+						}
+							
+					}
+					
+				}
+				if (zuokuohao < youkuohao)
+				{
+					fanhui = -12;  //括号不匹配
+					goto loop1;
+				}
+					
+				i++;
+			}
+		}
+		else{
+			fanhui = -2;  //结尾错误
+			goto loop1;
+		}
+			
+	}
+	else{
+		fanhui = -1;//开头错误
+		goto loop1;
+	}
+		
+
+	if (zuokuohao != youkuohao)
+			fanhui = -12;  //括号不匹配
+
+	
+loop1:
+	cout << endl << "这次的 fanhui 是：" << fanhui << endl;
+	switch (fanhui)
+	{
+	case 1: //正确
+		cout << endl << "表达式正确！" << endl;
+		return 1;
+	case-1: //开头错误
+		cout << endl << "开头错误！" << endl;
+		return -1;
+	case -2: //结尾错误
+		cout << endl << "结尾错误！" << endl;
+		return -1;
+	case-3://加减乘除运算符格式错误
+		cout << endl << "加减乘除运算符使用错误！" << endl;
+		return -1;
+	case-4:
+		cout << endl << "三角函数使用错误！" << endl;
+		return -1;
+	case-5:
+		cout << endl << "开方运算符使用错误！" << endl;
+		return -1;
+	case-6:
+		cout << endl << "对数运算符使用错！" << endl;
+		return -1;
+	case-7:
+		cout << endl << "乘方运算符使用错！" << endl;
+		return -1;
+	case-8:
+		cout << endl << "左括号使用错误！" << endl;
+		return -1;
+	case-9:
+		cout << endl << "右括号使用错误！" << endl;
+		return -1;
+	case-10:
+		cout << endl << "小数点使用错误！" << endl;
+		return -1;
+	case-11:
+		cout << endl << "实数输入错误！" << endl;
+		return -1;
+	case-12:
+		cout << endl << "左右括号不匹配！" << endl;
+		return -1;
+	default:
+			break;
+	}
+
+}
+
+int divide(char a, char b, char c, char d)
+{
+	
+
+
+
+	return 0;
+}
+//中缀变后缀
+void biaodashi_jiexi(string c,string b)
+{
+	unsigned i = 0,d = 0;
+	int top_pointer = -1;
+
+	while (i < c.size()-4)
+	{
+		d = divide(c[i],c[i+1],c[i+2],c[i+3]);
+		if (d == 1)
+		{
+
+		}
+	}
+
+}
+
+
+double solve(string c)
+{
+	double result=0;
+	string b;
+	biaodashi_jiexi(c,b);
+	//开始运算后缀表达式
+	
+	
+	cout << "表达式 " << c << " 的计算结果为：" << result << endl;
+	return 0;
+}
+
+void manu()
+{
+	//菜单
+
+}
+
+void control()
+{
+	//cal  (开始计算)，clear,（清屏）show（显示最近5个表达式）,exit（退出）
+
+}
+
+
+//比较优先级
+void compare()
+{
+	int i = 0;
+
+
+}
+
